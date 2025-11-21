@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Detection Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* FIX: Make the image fit the upload box */
+        .upload-box {
+    border: 3px dashed #ddd;
+    border-radius: 10px;
+    width: 100%;
+    height: 600px;   /* 🟢 Increased size here */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 1rem;
+    overflow: hidden;
+}
+
+
+        /* Make upload label clickable above the image */
+        .upload-label {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #777;
+            cursor: pointer;
+        }
+
+        /* Hide upload label when image appears */
+        .upload-box.image-active .upload-label {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="nav-logo">
+                <i class="fas fa-leaf"></i>
+                <span>Citrus Guard</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-button ">Home</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-button">About</a></li>
+                <li class="nav-item">
+                    <a href="test.html" class="nav-button active">Take Test</a>
+                </li>
+                <li class="nav-item"><a href="history.html" class="nav-button">Check History</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="dashboard-container">
+        <!-- Left Pane: Image Upload -->
+        <div class="pane left-pane">
+            <h2>1. Upload Image</h2>
+            <p>Select a clear image of a citrus leaf for analysis.</p>
+
+            <div class="upload-box" id="uploadBox">
+                <input type="file" id="image-upload-input" accept="image/*" hidden>
+
+                <label for="image-upload-input" class="upload-label">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Click to Upload or Drag and Drop</p>
+                </label>
+
+                <!-- FIXED IMAGE PREVIEW -->
+                <img id="image-preview" src="#" alt="Image Preview">
+            </div>
+
+            <button id="detect-button" class="detect-btn" disabled>Detect Disease</button>
+
+            <button id="new-image-button" class="detect-btn secondary-btn" onclick="location.reload();">
+                Check For New Image
+            </button>
+        </div>
+
+        <!-- Right Pane: Results -->
+        <div class="pane right-pane">
+            <h2>2. Analysis Results</h2>
+            <div id="results-content">
+                <p class="placeholder-text">Your results will be displayed here...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // IMAGE PREVIEW + FIT FIX
+        const fileInput = document.getElementById("image-upload-input");
+        const previewImg = document.getElementById("image-preview");
+        const uploadBox = document.getElementById("uploadBox");
+        const detectButton = document.getElementById("detect-button");
+
+        fileInput.addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = "block";       // Show image
+                    uploadBox.classList.add("image-active"); // Hide label
+                    detectButton.disabled = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+
+    <script src="script.js"></script>
+</body>
+</html>
