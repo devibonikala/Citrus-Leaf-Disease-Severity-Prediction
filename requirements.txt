@@ -1,0 +1,5 @@
+flask
+tensorflow>=2.9
+opencv-python
+numpy
+werkzeug
